@@ -1,29 +1,24 @@
 #!/usr/bin/python3
-""" 0-making_change.py """
-from typing import List
+
+""" Contains makeChange function"""
 
 
-def makeChange(coins: List[int], total: int) -> int:
+def makeChange(coins, total):
     """
-    function: makeChange
-    args: coins -> List[int], total: int
+    Returns: fewest number of coins needed to meet total
+        If total is 0 or less, return 0
+        If total cannot be met by any number of coins you have, return -1
     """
+    if not coins or coins is None:
+        return -1
     if total <= 0:
         return 0
-
-    sorted_coins = sorted(coins, reverse=True)
-    counter = 0
-    copy_total = total
-
-    for coin in sorted_coins:
-        if coin <= copy_total:
-            count = copy_total // coin
-            copy_total -= coin * count
-            counter += count
-        if copy_total == 0:
-            break
-
-    if copy_total != 0:
-        return -1
-
-    return counter
+    change = 0
+    coins = sorted(coins)[::-1]
+    for coin in coins:
+        while coin <= total:
+            total -= coin
+            change += 1
+        if (total == 0):
+            return change
+    return -1
